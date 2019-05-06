@@ -6,7 +6,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
-<BorderPane fx:id="mainBorderPane" fx:controller="sample.Controller" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+<BorderPane fx:id="mainBorderPane" fx:controller="sample.controller.MainController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
             prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
     <center>
         <TableView fx:id="parametersTable">
@@ -31,12 +31,11 @@
     </center>
     <right>
         <VBox>
-            <children>
-                <Button onAction="#addParametersOpen" fx:id="addParametersButton" text="Dodaj pomiar" prefWidth="150"/>
-                <Button onAction="#deleteParameters" text="Usuń pomiar" prefWidth="150"/>
-                <Button onAction="#showChart" text="Pokaż wykres" prefWidth="150"/>
-                <Button onAction="#close" fx:id="closeButton" text="Zamknij" prefWidth="150"/>
-            </children>
+            <Button onAction="#showParameters" fx:id="showParamsButton" text="Pokaż pomiary" prefWidth="150"/>
+            <Button onAction="#addParametersOpen" fx:id="addParametersButton" text="Dodaj pomiar" prefWidth="150"/>
+            <Button onAction="#deleteParameters" text="Usuń pomiar" prefWidth="150"/>
+            <Button onAction="#showChart" text="Pokaż wykres" prefWidth="150"/>
+            <Button onAction="#close" fx:id="closeButton" text="Zamknij" prefWidth="150"/>
         </VBox>
     </right>
 </BorderPane>

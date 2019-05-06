@@ -6,29 +6,31 @@ import java.util.List;
 
 public class Datasource {
 
-    public static final String DB_NAME = "parameters.db";
+    private static final String DB_NAME = "parameters.db";
 
-    public static final String CONNECTION_STRING = "jdbc:sqlite:/home/ptaku/IdeaProjects/MyParameters/" + DB_NAME;
+    private static final String CONNECTION_STRING =
+            String.format("jdbc:sqlite:/home/ptaku/IdeaProjects/MyParameters/%s", DB_NAME);
 
-    public static final String TABLE_PARAMETERS = "parameters";
-    public static final String TABLE_PARAMETERS_DATE = "date";
-    public static final String TABLE_PARAMETERS_WEIGHT = "weight";
-    public static final String TABLE_PARAMETERS_TEMPERATURE = "temperature";
+    private static final String TABLE_PARAMETERS = "parameters";
+    private static final String TABLE_PARAMETERS_DATE = "date";
+    private static final String TABLE_PARAMETERS_WEIGHT = "weight";
+    private static final String TABLE_PARAMETERS_TEMPERATURE = "temperature";
 
-    public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_PARAMETERS +
-            '(' + TABLE_PARAMETERS_DATE + " DATE NOT NULL, " +
-            TABLE_PARAMETERS_WEIGHT + " DOUBLE, " + TABLE_PARAMETERS_TEMPERATURE + " DOUBLE)";
+    private static final String CREATE_TABLE =
+            String.format("CREATE TABLE IF NOT EXISTS %s(%s DATE NOT NULL, %s DOUBLE, %s DOUBLE)",
+                    TABLE_PARAMETERS, TABLE_PARAMETERS_DATE, TABLE_PARAMETERS_WEIGHT, TABLE_PARAMETERS_TEMPERATURE);
 
-    public static final String QUERY_ALL_PARAMETERS = "SELECT * FROM " + TABLE_PARAMETERS +
-            " ORDER BY " + TABLE_PARAMETERS_DATE;
+    private static final String QUERY_ALL_PARAMETERS =
+            String.format("SELECT * FROM %s ORDER BY %s",
+                    TABLE_PARAMETERS, TABLE_PARAMETERS_DATE);
 
-    public static final String ADD_PARAMETERS = "INSERT INTO " + TABLE_PARAMETERS +
-            '(' + TABLE_PARAMETERS_DATE + ", " +
-            TABLE_PARAMETERS_WEIGHT + ", " +
-            TABLE_PARAMETERS_TEMPERATURE + ") VALUES(?, ?, ?)";
+    private static final String ADD_PARAMETERS =
+            String.format("INSERT INTO %s(%s, %s, %s) VALUES(?, ?, ?)",
+                    TABLE_PARAMETERS, TABLE_PARAMETERS_DATE, TABLE_PARAMETERS_WEIGHT, TABLE_PARAMETERS_TEMPERATURE);
 
-    public static final String DELETE_PARAMETERS = "DELETE FROM " + TABLE_PARAMETERS +
-            " WHERE " + TABLE_PARAMETERS_DATE + " = \"";
+    private static final String DELETE_PARAMETERS =
+            String.format("DELETE FROM %s WHERE %s = \"",
+                    TABLE_PARAMETERS, TABLE_PARAMETERS_DATE);
 
     private Connection connection;
 

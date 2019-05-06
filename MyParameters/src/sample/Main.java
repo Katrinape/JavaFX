@@ -6,15 +6,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import sample.controller.MainController;
 import sample.model.Datasource;
 
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("main.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/sample/fxml/main.fxml"));
         Parent root = loader.load();
-        Controller controller = loader.getController();
+        MainController controller = loader.getController();
         controller.listParameters();
 
         primaryStage.setTitle("My Parameters");

@@ -1,4 +1,4 @@
-package sample;
+package sample.controller;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -16,23 +16,22 @@ import sample.model.Parameter;
 import java.io.IOException;
 import java.util.Optional;
 
-public class Controller {
+public class MainController {
 
     @FXML
-    TableView parametersTable;
-
+    private Button showParamsButton;
     @FXML
-    BorderPane mainBorderPane;
-
+    private Button closeButton;
     @FXML
-    Button closeButton;
-
+    private Button addParametersButton;
     @FXML
-    Button addParametersButton;
+    private TableView<Parameter> parametersTable;
+    @FXML
+    private BorderPane mainBorderPane;
 
     @FXML
     public void listParameters() {
-        Task<ObservableList<Parameter>> task = new GetAllParametersTask();
+        GetAllParametersTask task = new GetAllParametersTask();
         parametersTable.itemsProperty().bind(task.valueProperty());
 
         new Thread(task).start();
@@ -45,7 +44,7 @@ public class Controller {
         dialog.setTitle("Add Parameters");
         dialog.setHeaderText("Dodaj swoje pomiary");
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("addParameters.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("/sample/fxml/addParams.fxml"));
 
         try {
             dialog.getDialogPane().setContent(fxmlLoader.load());
@@ -58,8 +57,9 @@ public class Controller {
         dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
 
         Optional<ButtonType> result = dialog.showAndWait();
+
         if (result.isPresent() && result.get().equals(ButtonType.OK)){
-            AddParametersController controller = fxmlLoader.getController();
+            AddParamsController controller = fxmlLoader.getController();
             Parameter parameter = controller.processResults();
             if (Datasource.getInstance().addParameters(parameter.getDate(), parameter.getWeight(),
                     parameter.getTemperature())) {
@@ -70,29 +70,22 @@ public class Controller {
 
     @FXML
     public void showChart() {
-        Dialog dialog = new Dialog();
-        dialog.setTitle("Wykres");
-        dialog.setHeaderText("Wykres wagi i temperatury");
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("chart.fxml"));
+        loader.setLocation(getClass().getResource("/sample/fxml/chart.fxml"));
         try {
-            dialog.getDialogPane().setContent(loader.load());
-
+            loader.load();
         } catch (IOException e) {
-            System.out.println("Couldn't load the dialog");
             e.printStackTrace();
-            return;
         }
-        Chart chart = loader.getController();
+        ChartController chart = loader.getController();
         chart.show();
 
-        dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
-        dialog.showAndWait();
+        this.mainBorderPane.setCenter(chart.lineChart);
     }
 
     @FXML
-    public void deleteParameters() {
-        final Parameter parameter = (Parameter) parametersTable.getSelectionModel().getSelectedItem();
+    private void deleteParameters() {
+        final Parameter parameter = parametersTable.getSelectionModel().getSelectedItem();
         if (parameter == null) {
             System.out.println("Select item!!!");
             return;
@@ -104,17 +97,20 @@ public class Controller {
     }
 
     @FXML
-    public void close() {
+    private void close() {
         Platform.exit();
     }
-}
 
-class GetAllParametersTask extends Task {
+    @FXML
+    private void showParameters() {
+        this.mainBorderPane.setCenter(parametersTable);
+    }
 
-    @Override
-    protected ObservableList<Parameter> call() {
-        return FXCollections.observableArrayList(
-                Datasource.getInstance().queryParameters()
-        );
+    private class GetAllParametersTask extends Task {
+
+        @Override
+        protected ObservableList<Parameter> call() {
+            return FXCollections.observableArrayList(Datasource.getInstance().queryParameters());
+        }
     }
 }

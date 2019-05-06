@@ -1,4 +1,4 @@
-package sample;
+package sample.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
@@ -8,13 +8,13 @@ import sample.model.Parameter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Chart {
+public class ChartController {
 
     @FXML
     LineChart<String, Number> lineChart;
 
     @FXML
-    public void show() {
+    void show() {
         List<Parameter> parameters = new ArrayList<>(Datasource.getInstance().queryParameters());
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         for (Parameter parameter : parameters) {
@@ -28,6 +28,8 @@ public class Chart {
             series1.getData().add(new XYChart.Data<>(parameter.getDate(), parameter.getTemperature()));
         }
         series1.setName("Temperatura");
+
+        lineChart.setTitle("Wykres wagi i temperatury");
         lineChart.getData().add(series1);
     }
 }
